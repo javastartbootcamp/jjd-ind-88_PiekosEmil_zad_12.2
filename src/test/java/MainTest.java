@@ -3,7 +3,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.file.CopyOption;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,8 +18,8 @@ public class MainTest {
 
         FileWriter fileWriter = new FileWriter(file);
         fileWriter.append("Jan;Kowalski;123456789;Management;6000\n");
-        fileWriter.append("Aneta;Zawadzka;432156789;it;5200\n");
-        fileWriter.append("Karol;Kowalewski;5412328948;it;5200\n");
+        fileWriter.append("Aneta;Zawadzka;432156789;IT;5200\n");
+        fileWriter.append("Karol;Kowalewski;5412328948;IT;5200\n");
         fileWriter.append("Jan;Zarzecki;678628373674;Support;4800\n");
         fileWriter.close();
 
@@ -30,13 +32,12 @@ public class MainTest {
 
         String fileContent = Files.readString(statsFile.toPath());
 
-        assertThat(fileContent).contains("Średnia wypłata: 5000");
-        assertThat(fileContent).contains("Najmniejsza wypłata: 4800");
-        assertThat(fileContent).contains("Największa wypłata: 6000");
-        assertThat(fileContent).contains("Łączna liczba pracowników: 4");
-        assertThat(fileContent).contains("Liczba pracowników w dziale IT: 2");
-        assertThat(fileContent).contains("Liczba pracowników w dziale Management: 1");
-        assertThat(fileContent).contains("Liczba pracowników w dziale Support: 1");
+        assertThat(fileContent).contains("Średnia wypłata: 5300");
+        assertThat(fileContent).contains("Minimalna wypłata: 4800");
+        assertThat(fileContent).contains("Maxymalna wypłata: 6000");
+        assertThat(fileContent).contains("Liczba pracowników IT: 2");
+        assertThat(fileContent).contains("Liczba pracowników Management: 1");
+        assertThat(fileContent).contains("Liczba pracowników Support: 1");
     }
 
     @Test
@@ -44,7 +45,7 @@ public class MainTest {
         File file = new File("employees.csv");
 
         FileWriter fileWriter = new FileWriter(file);
-        fileWriter.append("Jan;Kowalski;123456789;it;6000\n");
+        fileWriter.append("Jan;Kowalski;123456789;IT;6000\n");
         fileWriter.close();
 
         // when
@@ -53,16 +54,14 @@ public class MainTest {
         // then
         File statsFile = new File("stats.txt");
         assertThat(statsFile).exists();
-
         String fileContent = Files.readString(statsFile.toPath());
 
         assertThat(fileContent).contains("Średnia wypłata: 6000");
-        assertThat(fileContent).contains("Najmniejsza wypłata: 6000");
-        assertThat(fileContent).contains("Największa wypłata: 6000");
-        assertThat(fileContent).contains("Łączna liczba pracowników: 1");
-        assertThat(fileContent).contains("Liczba pracowników w dziale IT: 1");
-        assertThat(fileContent).contains("Liczba pracowników w dziale Management: 0");
-        assertThat(fileContent).contains("Liczba pracowników w dziale Support: 0");
+        assertThat(fileContent).contains("Minimalna wypłata: 6000");
+        assertThat(fileContent).contains("Maxymalna wypłata: 6000");
+        assertThat(fileContent).contains("Liczba pracowników IT: 1");
+        assertThat(fileContent).contains("Liczba pracowników Management: 0");
+        assertThat(fileContent).contains("Liczba pracowników Support: 0");
     }
 
 
@@ -72,8 +71,13 @@ public class MainTest {
     }
 
     @AfterEach
-    public void cleanup() throws IOException {
-        restoreBackup();
+    public void cleanup() {
+        try {
+            restoreBackup();
+        } catch (Exception e) {
+            System.out.println("Failed restoring backup");
+        }
+        new File("stats.txt").delete();
     }
 
 
@@ -91,7 +95,7 @@ public class MainTest {
         File backup = new File("backup.csv");
         orgFile.delete();
         if (backup.exists()) {
-            Files.copy(backup.toPath(), orgFile.toPath());
+            Files.copy(backup.toPath(), orgFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             backup.delete();
         }
     }
