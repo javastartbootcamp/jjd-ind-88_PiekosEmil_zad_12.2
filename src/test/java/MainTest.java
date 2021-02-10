@@ -60,8 +60,6 @@ public class MainTest {
         assertThat(fileContent).contains("Minimalna wypłata: 6000");
         assertThat(fileContent).contains("Maxymalna wypłata: 6000");
         assertThat(fileContent).contains("Liczba pracowników IT: 1");
-        assertThat(fileContent).contains("Liczba pracowników Management: 0");
-        assertThat(fileContent).contains("Liczba pracowników Support: 0");
     }
 
 
