@@ -34,7 +34,7 @@ public class MainTest {
 
         assertThat(fileContent).contains("Średnia wypłata: 5300");
         assertThat(fileContent).contains("Minimalna wypłata: 4800");
-        assertThat(fileContent).contains("Maxymalna wypłata: 6000");
+        assertThat(fileContent).contains("Maksymalna wypłata: 6000");
         assertThat(fileContent).contains("Liczba pracowników IT: 2");
         assertThat(fileContent).contains("Liczba pracowników Management: 1");
         assertThat(fileContent).contains("Liczba pracowników Support: 1");
@@ -58,7 +58,7 @@ public class MainTest {
 
         assertThat(fileContent).contains("Średnia wypłata: 6000");
         assertThat(fileContent).contains("Minimalna wypłata: 6000");
-        assertThat(fileContent).contains("Maxymalna wypłata: 6000");
+        assertThat(fileContent).contains("Maksymalna wypłata: 6000");
         assertThat(fileContent).contains("Liczba pracowników IT: 1");
     }
 
