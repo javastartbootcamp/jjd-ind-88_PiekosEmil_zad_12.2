@@ -189,19 +189,6 @@ public class MainTest {
             assertThat(fileContent).contains("Maksymalna wypłata: 6000");
         }
 
-        @Test
-        void departmentEmployeeCount() throws IOException {
-            // when
-            Main.main(new String[]{});
-
-            // then
-            File statsFile = new File("stats.txt");
-            assertThat(statsFile).exists();
-            String fileContent = Files.readString(statsFile.toPath());
-
-            assertThat(fileContent).contains("Liczba pracowników HR: 1");
-        }
-
     }
 
 }
