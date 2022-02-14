@@ -131,7 +131,7 @@ public class MainTest {
             File file = new File("employees.csv");
 
             FileWriter fileWriter = new FileWriter(file);
-            fileWriter.append("Jan;Kowalski;123456789;HR;6000\n");
+            fileWriter.append("Jan;Kowalski;123456789;IT;6000\n");
             fileWriter.close();
         }
 
