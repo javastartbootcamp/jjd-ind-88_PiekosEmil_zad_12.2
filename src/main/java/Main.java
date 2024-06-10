@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,14 +12,19 @@ public class Main {
         if (file.exists()) {
             File stats = new File("stats.txt");
             stats.createNewFile();
+            company.readEmployees();
 
             FileWriter fileWriter = new FileWriter(stats);
-            fileWriter.write("Średnia wypłata: 5000");
+            BufferedWriter writer = new BufferedWriter(fileWriter);
+            writer.write("Średnia wypłata: " +  company.averageSalary(company.employees));
+            writer.newLine();
+            writer.write("Minimalna wypłata: " + company.lowestSalary(company.employees));
+            writer.newLine();
+            writer.write("Maksymalna wypłata: " + company.highestSalary(company.employees));
+            writer.newLine();
+            writer.write(company.employeeOfDepartment(company.employees));
 
-            fileWriter.close();
+            writer.flush();
         }
-        company.readEmployees();
-        company.printEmployees();
-
     }
 }
