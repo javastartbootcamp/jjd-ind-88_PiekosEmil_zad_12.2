@@ -1,22 +1,28 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        File stats = new File("stats.txt");
 
-        File file = new File("employees.csv");
+        try (
+                FileWriter fileWriter = new FileWriter(stats);
+                BufferedWriter writer = new BufferedWriter(fileWriter);
+        ) {
+            Employee[] employees = Company.readEmployees();
 
-        if (file.exists()) {
-            File stats = new File("stats.txt");
-            stats.createNewFile();
-
-//            FileWriter fileWriter = new FileWriter(stats);
-//            fileWriter.write("Średnia wypłata: 5000");
-//
-//            fileWriter.close();
+            writer.write("Średnia wypłata: " + Company.averageSalary(employees));
+            writer.newLine();
+            writer.write("Minimalna wypłata: " + Company.lowestSalary(employees));
+            writer.newLine();
+            writer.write("Maksymalna wypłata: " + Company.highestSalary(employees));
+            writer.newLine();
+            writer.write(Company.employeeOfDepartment(employees));
+        } catch (IOException e) {
+            System.err.println("Nie odnaleziono pliku");
         }
-
     }
 }
